@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Generar botones</h1>
+    <div id="divbotones"></div>
+    <h1 style="color: blue;" id="resultado">0</h1>
+
+    <!-- scripts -->
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            var suma = 0; // Inicializamos una variable para la suma
+
+            // Generamos todos los botones de manera aleatoria y los agregamos al div de los botones
+            for (var i = 1; i <= 10; i++) {
+                var randomId = Math.floor(Math.random() * 100); // Generamos un ID aleatorio
+                var boton = $("<button></button>", { "id": randomId }).text("Botón " + randomId);
+                $("#divbotones").append(boton);
+
+                // Sumamos los valores de los botones si estos se pulsan
+                boton.click(function () {
+                    var valor = parseInt($(this).attr("id")); // Obtener el id del botón que fue pulsado
+                    suma += valor; // Sumar el valor del id al acumulador
+                    $("#resultado").text(suma); // Mostrar el resultado actualizado en el h1
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

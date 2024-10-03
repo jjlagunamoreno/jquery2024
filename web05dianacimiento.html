@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Día Nacimiento</title>
+</head>
+
+<body>
+
+    <h2>Mostrar día de nacimiento</h2>
+    <label>Día: </label>
+    <input type="text" id="cajanumero1">
+    <label>Mes: </label>
+    <input type="text" id="cajanumero2">
+    <label>Año: </label>
+    <input type="text" id="cajanumero3">
+
+    <button id="botondia">Mostrar día de la semana</button>
+
+    <h1 id="resultado"></h1>
+
+    <!-- scripts de jquery-3 -->
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#botondia").click(function () {
+                var dia = parseInt($("#cajanumero1").val());
+                var mes = parseInt($("#cajanumero2").val());
+                var ano = parseInt($("#cajanumero3").val());
+
+                var paso1, paso2, paso3, paso4, paso5, paso6, paso7, resultado;
+
+                // condiciones en caso de que sea enero o febrero el mes del cumpleaños
+                if (mes == 1) {
+                    var mes = 13;
+                    var ano = ano - 1; // "ano --;" hace lo mismo
+                } else if (mes == 2) {
+                    var mes = 14;
+                    var ano = ano - 1;
+                }
+
+                // con 'Math.trunc' truncamos los enteros para que no realice cuentas con estos decimales
+                // seguimos los pasos para las operaciones matemáticas
+                paso1 = Math.trunc(((mes + 1) * 3) / 5);
+                console.log("Paso 1: " + paso1)
+
+                paso2 = Math.trunc(ano / 4);
+                console.log("Paso 2: " + paso2)
+
+                paso3 = Math.trunc(ano / 100);
+                console.log("Paso 3: " + paso3)
+
+                paso4 = Math.trunc(ano / 400);
+                console.log("Paso 4: " + paso4)
+
+                paso5 = Math.trunc(dia + (mes * 2) + ano + paso1 + paso2 - paso3 + paso4 + 2);
+                console.log("Paso 5: " + paso5)
+
+                paso6 = Math.trunc(paso5 / 7);
+                console.log("Paso 6: " + paso6)
+
+                paso7 = Math.trunc(paso5 - (paso6 * 7));
+                console.log("Paso 7: " + paso7)
+
+                // ID de los días de la semana con ifs
+                if (paso7 == 0) {
+                    resultado = "SÁBADO"
+                } else if (paso7 == 1) {
+                    resultado = "DOMINGO"
+                } else if (paso7 == 2) {
+                    resultado = "LUNES"
+                } else if (paso7 == 3) {
+                    resultado = "MARTES"
+                } else if (paso7 == 4) {
+                    resultado = "MIÉRCOLES"
+                } else if (paso7 == 5) {
+                    resultado = "JUEVES"
+                } else if (paso7 == 6) {
+                    resultado = "VIERNES"
+                } else {
+                    resultado = "Introduce una fecha correcta."
+                }
+
+                // mostramos en consola y en el h1 el día de nacimiento.
+                console.log("Naciste un: " + resultado)
+                $("#resultado").html(resultado);
+            })
+        })
+    </script>
+
+</body>
+
+</html>

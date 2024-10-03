@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02/10/2024</title>
+    <style>
+        .azul {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- comentar con cntrl + k + c -->
+    <!-- descomentar con cntrl + k + u -->
+
+    <h1>Selectores jquery</h1>
+
+    <button id="boton1">Pulsar para algo...</button>
+    <h2 class="azul">Soy un título azul</h2>
+    <button class="azul">Botón azul</button>
+    <p>Aprendiendo Jquery 1</p>
+    <p>Aprendiendo Jquery 2</p>
+    <p>Aprendiendo Jquery 3</p>
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        //AQUÍ VENDRÁ NUESTRO CÓDIGO JQUERY
+        // La primera línea dentro de JQUERY será la que realice las acciones al cargar la página
+
+        $(document).ready(function () {
+            // alert("mi primera app!!");
+
+            // $("h1").hide(); // ocultamos los elementos h1
+
+            // $("#boton1").hide(); // ocultamos los ids #boton1
+
+            $("p").click(function () {
+                // IMPRESCINDIBLE PARA EL DESARROLLO FRONT
+                // ES LANZAR MENSAJES EN CONSOLA PARA DEPURAR
+                console.log("Mostrando mensajes en consola Web");
+
+                // TENEMOS UNA PALABRA CLAVE LLAMADA 'this'
+                // QUE HACE REFERENCIA AL OBJETO QUE HA 
+                // REALIZADO LA LLAMADA AL MÉTODO. EJEMPLO:
+
+                $(this).hide();
+            })
+
+            $("#boton1").click(function () {
+                alert("Soy un botón");
+            })
+        })
+    </script>
+</body>
+
+</html>

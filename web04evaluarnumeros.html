@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02/10/2024</title>
+</head>
+
+<body>
+
+    <h1>PRÁCTICA</h1>
+
+    <h4>Tendremos tres cajas para escribir números.</h4>
+    <h4>Necesitamos, mediante un botón, mostrar el MAYOR, MENOR e INTERMEDIO de los tres números</h4>
+
+    <!-- 
+    Sintaxis: 
+
+    if (num1 == 0) {
+
+    }else if (num1 == 1) {
+
+    }else {
+
+    }
+
+    Operadores relaciones: 
+        • And: &&
+        • Or: ||
+        • NOT: !
+
+    if (num1 == 0 && num2 == 1){
+        
+    } -->
+
+    <h2>Comparar Números</h2>
+
+    <label>Número 1</label>
+    <input type="text" id="cajanumero1"><br>
+    <label>Número 2</label>
+    <input type="text" id="cajanumero2"><br>
+    <label>Número 3</label>
+    <input type="text" id="cajanumero3"><br>
+    <button id="botoncomparar">Comparar</button>
+
+    <h5 id="resultado_mayor"></h5>
+    <h5 id="resultado_menor"></h5>
+    <h5 id="resultado_intermedio"></h5>
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            // comparación
+            $("#botoncomparar").click(function () {
+                var num1 = $("#cajanumero1").val();
+                var num2 = $("#cajanumero2").val();
+                var num3 = $("#cajanumero3").val();
+
+                var mayor = "";
+                var menor = "";
+                var intermedio = "";
+
+                // Comprobamos el número mayor
+                if (parseInt(num1) >= parseInt(num2) && parseInt(num1) >= parseInt(num3)) {
+                    mayor = num1;
+                } else if (parseInt(num2) >= parseInt(num1) && parseInt(num2) >= parseInt(num3)) {
+                    mayor = num2;
+                } else if (parseInt(num3) >= parseInt(num1) && parseInt(num3) >= parseInt(num2)) {
+                    mayor = num3;
+                } else {
+                    mayor = "-"
+                }
+
+                // Comprobamos el número menor
+                if (parseInt(num1) <= parseInt(num2) && parseInt(num1) <= parseInt(num3)) {
+                    menor = num1;
+                } else if (parseInt(num2) <= parseInt(num1) && parseInt(num2) <= parseInt(num3)) {
+                    menor = num2;
+                } else if (parseInt(num3) <= parseInt(num1) && parseInt(num3) <= parseInt(num2)) {
+                    menor = num3;
+                } else {
+                    menor = "-"
+                }
+
+                // Comprobamos el número intermedio
+                if ((parseInt(num2) == mayor && parseInt(num3) == menor) || (parseInt(num3) == mayor && parseInt(num2) == menor)) {
+                    intermedio = num1;
+                } else if ((parseInt(num1) == mayor && parseInt(num3) == menor) || (parseInt(num1) == mayor && parseInt(num3) == menor)) {
+                    intermedio = num2;
+                } else if ((parseInt(num1) == mayor && parseInt(num2) == menor) || (parseInt(num3) == mayor && parseInt(num1) == menor)) {
+                    intermedio = num3;
+                } else {
+                    intermedio = "-";
+                }
+
+                $("#resultado_mayor").text("El mayor es: " + mayor);
+                $("#resultado_menor").text("El menor es: " + menor);
+                $("#resultado_intermedio").text("El intermedio es: " + intermedio);
+
+                // Agregamos al html la comparación realizada
+                $("#tabla").html(html);
+            })
+
+        })
+    </script>
+</body>
+
+</html>

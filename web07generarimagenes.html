@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Generar imágenes</h1>
+    <input type="range" id="rango" min="1" max="20" value="1" />
+    <span id="valorrango"></span>
+    <div id="contenedor"></div>
+
+    <!-- scripts -->
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            // cuando el rango cambie, generaremos imágenes
+            $("#rango").change(function () {
+                var numImagenes = parseInt($(this).val());
+                $("#valorrango").text(numImagenes);
+
+                // LIMPIAMOS EL CONTENEDOR DE IMÁGENES
+                $("#contenedor").text("");
+
+                for (var i = 1; i <= numImagenes; i++) {
+                    var imagen = $("<img>"
+                        , { "src": "images/spiderman.jfif" });
+                    $("#contenedor").append(imagen);
+
+                    imagen.mouseover(function () {
+                        $(this).attr("src", "images/hulk.jfif");
+                    })
+
+                    imagen.mouseout(function () {
+                        $(this).attr("src", "images/spiderman.jfif");
+                    })
+                }
+
+            })
+        })
+    </script>
+</body>
+
+</html>

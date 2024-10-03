@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Controles dinámicos</h1>
+    <button>Pulsar para hacer algo...</button>
+    <div id="prueba"></div>
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                alert("botón pulsado");
+                $("#prueba").html("<button id='miboton' onclick='mostrarMensaje()'>boton NUEVO</button>");
+            })
+
+            // generamos mediante una función en jquery un objeto dibujado también, NO FUNCIONA, ya que se necesita un javascript.
+            $("#miboton").click(function () {
+                alert("botón NUEVO pulsado");
+            })
+        })
+
+        // para interactuar con elementos html 'dibujados', se tiene que acceder mediante javascript, no sirve jquery (fuera del jquery la función!!)
+        function mostrarMensaje() {
+            alert("botón NUEVO pulsado mediante Javascript");
+        }
+    </script>
+</body>
+
+</html>
