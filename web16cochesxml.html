@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB 16 Coches XML</title>
+</head>
+
+<body>
+    <h1>Coches XML</h1>
+    <div id="divbotones" style="text-align: center;"></div>
+    <hr />
+    <div id="divdatos"></div>
+
+    <!-- scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // URL del XML
+            var url = "https://apiclientesxml.azurewebsites.net/api/Clientes/GetCochesXML";
+
+            $.get(url, function (data) {
+                console.log("XML cargado con éxito");
+
+                // limpiamos el div de botones
+                $("#divbotones").html("");
+
+                // recorremos los datos del XML
+                $(data).find("coche").each(function () {
+                    // obtenemos los datos del cliente
+                    var marcaCoche = $(this).find("marca").text();
+                    var modeloCoche = $(this).find("modelo").text();
+                    var imagenCoche = $(this).find("Imagen").text();
+                    // if (imagenCoche === None) {
+                    //     var imagenCoche = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fes%2Fsearch%2Fdefault-image&psig=AOvVaw1LnP_ajH91ZSe3G204w0DP&ust=1728131173286000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIih_bfc9IgDFQAAAAAdAAAAABAE"
+                    // } else {
+                    //     var imagenCoche = $(this).find("Imagen").text();
+                    // }
+
+                    // generamos el botón
+                    var boton = $("<button>", {
+                        text: marcaCoche,
+                        style: "margin: 7px;", // estilo del botón
+                    });
+
+                    // añadimos el botón al div
+                    $("#divbotones").append(boton);
+
+                    // asignamos el evento click al botón
+                    boton.click(function () {
+                        console.log("Pulsado: " + marcaCoche);
+
+                        // generamos los datos de email e imagen
+                        var datos =
+                            "<h2 style='margin: 7px;'>" + marcaCoche + "</h2>" +
+                            "<h4>" + modeloCoche + "</h4>" +
+                            "<img src='" + imagenCoche + "' style='width: 300px;' alt='Imagen del cliente' />";
+
+                        // limpiamos el div de datos y mostramos los nuevos
+                        $("#divdatos").html(datos);
+                    });
+                });
+            }).fail(function () {
+                console.log("Error al cargar el XML.");
+            });
+        });
+    </script>
+</body>
+
+</html>
