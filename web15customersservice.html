@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers XML Services</title>
+</head>
+
+<body>
+    <h1>Customers XML Services</h1>
+    <button id="botoncargarcustomers">Cargar Customers</button>
+    <select id="selectcustomer"></select>
+    <button id="botoncargardepartamentos">Cargar Departamentos</button>
+    <h1 style="color: blue;" id="contadorElementos"></h1>
+    <ul id="contenedorElementos"></ul>
+
+    <!-- scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(document).ready(function () {
+                $("#botoncargarcustomers").click(function () {
+                    var url = "https://northwind.netcore.io/customers.xml";
+                    // Hacemos una solicitud GET al archivo XML
+                    $.get(url, function (data) {
+                        console.log("XML Cargado con éxito");
+                        $("#contadorElementos").text(""); // limpiamos los resultados anteriores (cadena vacía para limpiar los textos)
+
+                        // Limpiamos el select antes de agregar nuevos elementos
+                        $("#selectcustomer").html("");
+
+                        $(data).find("d2p1\\:Customer").each(function () {
+                            var contactName = $(this).find("d2p1\\:ContactName").text();
+                            var city = $(this).find("d2p1\\:City").text(); // Obtenemos la ciudad del cliente 
+                            var address = $(this).find("d2p1\\:Address").text(); // Obtenemos la dirección del cliente
+
+                            // Asignamos el nombre, la ciudad y la dirección como atributos en las opciones
+                            var option = $("<option>", { "text": contactName, "data-city": city, "data-address": address });
+                            $("#selectcustomer").append(option);
+                        });
+
+                        var numeroElementos = $(data).find("d2p1\\:Customer").length;
+                        $("#contadorElementos").append("Elementos: " + numeroElementos);
+
+                    }).fail(function () {
+                        console.log("Error al cargar el XML.");
+                    });
+                });
+
+                // Detectar cuando se cambia la opción en el select
+                $("#selectcustomer").change(function () {
+                    $("#contenedorElementos").text(""); // limpiamos los resultados anteriores (cadena vacía para limpiar los textos)
+                    var name = $("#selectcustomer option:selected").val();
+                    var selectedCity = $("#selectcustomer option:selected").data("city");
+                    var selectedAddress = $("#selectcustomer option:selected").data("address");
+
+                    console.log("Ciudad seleccionada: " + selectedCity);
+                    console.log("Dirección seleccionada: " + selectedAddress);
+
+                    // Agregamos los elementos dibujados al html 'contenedorElementos'
+                    var elementos = ("<h3>" + name + "</h3>" + "<li><b>Ciudad: </b>" + selectedCity + "</li>" + "<li><b>Dirección: </b>" + selectedAddress + "</li>")
+
+                    $("#contenedorElementos").append(elementos);
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $("#botoncargardepartamentos").click(function () {
+                var url = "https://apicruddepartamentosxml.azurewebsites.net/api/Departamentos";
+                // Hacemos una solicitud GET al archivo XML
+                $.get(url, function (data) {
+                    console.log("XML Cargado con éxito");
+                    console.log(data);
+
+                    $(data).find("Departamento").each(function () {
+                        var numeroElementos =
+                            $(data).find("Departamento").length;
+                        console.log(numeroElementos)
+                    })
+
+                }).fail(function () {
+                    console.log("Error al cargar el XML.");
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
