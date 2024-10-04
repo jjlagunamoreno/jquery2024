@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Alumnos Notas XML</h1>
+    <label>Introduzca notas</label>
+    <input type="text" id="cajaid">
+    <button id="botonbuscarnotas">Buscar alumnos</button>
+    <hr />
+    <table id="tablaresultado">
+        <tr>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Nota</th>
+        </tr>
+    </table>
+
+    <!-- scripts -->
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#botonbuscarnotas").click(function () {
+                var nota = $("#cajaid").val().trim(); // obtenemos el valor de la caja y eliminamos espacios
+                $("#tablaresultado").find("tr:gt(0)").remove(); // limpiamos los resultados anteriores, excepto la cabecera
+
+                $.get("documents/alumnos.xml", function (data) {
+                    console.log("leyendo 'alumnos.xml'...");
+
+                    // Recorremos cada nodo <alumno> para encontrar la coincidencia
+                    $(data).find("alumno").each(function () {
+                        var notaAlumno = $(this).find("nota").text(); // obtenemos la nota del alumno en el xml
+
+                        // Si la nota del alumno coincide con la nota ingresada
+                        if (notaAlumno === nota) {
+                            var nombre = $(this).find("nombre").text();
+                            var apellidos = $(this).find("apellidos").text();
+
+                            // Agregamos la fila a la tabla con los datos del alumno
+                            $("#tablaresultado").append(
+                                "<tr><td>" + nombre + "</td><td>" + apellidos + "</td><td>" + notaAlumno + "</td></tr>"
+                            );
+                        }
+                    });
+
+                    // Si no hay resultados, mostramos un mensaje
+                    if ($("#tablaresultado tr").length === 1) {
+                        $("#tablaresultado").append("<tr><td colspan='3'>No se encontraron alumnos con esa nota.</td></tr>");
+                    }
+
+                    console.log("salimos de 'alumnos.xml'...");
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
