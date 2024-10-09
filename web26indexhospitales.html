@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+
     <meta name="generator" content="Hugo 0.122.0">
     <!-- se cambia la ruta -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -102,7 +104,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="web26createhospital.html">Create Hospital</a>
                     </li>
-                    
+
                 </ul>
             </div>
         </div>
@@ -127,9 +129,15 @@
             </table>
         </div>
     </main>
-    <!-- se cambia la ruta -->
+    <!-- scripts con urls -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- se cambia la ruta para local -->
+    <!-- scripts con librerías -->
     <script src="js/jquery-3.7.1.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/sweetalert.js"></script>
 
     <script>
         let urlHospital = "https://apicrudhospital.azurewebsites.net"
@@ -149,14 +157,88 @@
                         html += "<td>" + hospital.telefono + "</td>";
                         html += "<td>" + hospital.camas + "</td>";
                         html += "<td>";
-                        html += "<a href='web26edithospital.html?idhospital=" + hospital.idhospital + "'> Editar </a>";
+                        html += "<a href='web26edithospital.html?idhospital=" + hospital.idhospital + "'>Editar</a>";
+                        html += "<sapan> | </sapan>";
+                        html += "<a href='#' style='color:red;' onclick='deleteHospital(" + hospital.idhospital + ")'>Eliminar</a>";
                         html += "</td>";
-                        html += "/<tr>";
+                        html += "</tr>";
                     })
                     $("#tablahospitales tbody").html(html);
                 }
             })
         })
+        // SIMPLE SIN BOOTSTRAP
+        // function deleteHospital(idHospital) {
+        //     var requestDelete = "/webresources/hospitales/delete/" + idHospital;
+
+        //     if (window.confirm("¿Desea eliminar el hospital con id: " + idHospital + " ?")) {
+        //         // confirmamos la eliminación del hospital
+        //         $.ajax({
+        //             url: urlHospital + requestDelete,
+        //             type: "DELETE",
+        //             success: function () {
+        //                 console.log("Borrado");
+        //                 window.location.href = "web26indexhospitales.html";
+        //             }
+        //         });
+        //     } else {
+        //         window.location.href = "web26indexhospitales.html";
+        //     }
+        // }
+
+        // función con animación de librería sweetAlert
+        function deleteHospital(idHospital) {
+            var requestDelete = "/webresources/hospitales/delete/" + idHospital;
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success",
+                    cancelButton: "btn btn-danger"
+                },
+                buttonsStyling: false
+            });
+
+            swalWithBootstrapButtons.fire({
+                title: "¿¡SEGURO!?",
+                text: "¡No podrás restaurar el hospital!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sí, borrar",
+                cancelButtonText: "No, cancelar",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Realizamos la eliminación del hospital tras la confirmación
+                    $.ajax({
+                        url: urlHospital + requestDelete,
+                        type: "DELETE",
+                        success: function () {
+                            swalWithBootstrapButtons.fire({
+                                title: "Borrado",
+                                text: "Hospital eliminado.",
+                                icon: "success"
+                            }).then(() => {
+                                window.location.href = "web26indexhospitales.html";
+                            });
+                        },
+                        error: function () {
+                            swalWithBootstrapButtons.fire({
+                                title: "Error",
+                                text: "No se pudo eliminar el hospital.",
+                                icon: "error"
+                            });
+                        }
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire({
+                        title: "Cancelado",
+                        text: "Hospital sin eliminar :)",
+                        icon: "error"
+                    });
+                }
+            });
+        }
+
     </script>
 
 </body>
