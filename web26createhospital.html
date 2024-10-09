@@ -2,7 +2,6 @@
 <html lang="en" data-bs-theme="auto">
 
 <head>
-    <script src="/docs/5.3/assets/js/color-modes.js"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,8 +10,6 @@
     <meta name="generator" content="Hugo 0.122.0">
     <!-- se cambia la ruta -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- guardamos el estilo -->
-    <link rel="stylesheet" href="css/custom-style.css">
 
 
     <!-- Custom styles for this template -->
@@ -112,21 +109,24 @@
 
     <main class="container">
         <div class="bg-body-tertiary p-5 rounded">
-            <h1>CRUD Hospitales</h1>
-            <table id="tablahospitales" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>ID Hospital</th>
-                        <th>Nombre</th>
-                        <th>Dirección</th>
-                        <th>Teléfono</th>
-                        <th>Camas</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <h1>Create Hospital</h1>
 
-                </tbody>
-            </table>
+            <label>ID Hospital</label>
+            <input type="text" id="cajaidhospital" class="form-control" />
+
+            <label>Nombre</label>
+            <input type="text" id="cajanombre" class="form-control" />
+
+            <label>Dirección</label>
+            <input type="text" id="cajadireccion" class="form-control" />
+
+            <label>Teléfono</label>
+            <input type="text" id="cajatelefono" class="form-control" />
+
+            <label>Camas</label>
+            <input type="text" id="cajacamas" class="form-control" /></br>
+
+            <button id="botoninsert" class="btn btn-danger">Insertar Hospital</button>
         </div>
     </main>
     <!-- se cambia la ruta -->
@@ -136,25 +136,34 @@
     <script>
         let urlHospital = "https://apicrudhospital.azurewebsites.net"
         $(document).ready(function () {
-            var request = "/webresources/hospitales"
-            $.ajax({
-                url: urlHospital + request,
-                type: "GET",
-                contentType: "application/json",
-                success: function (data) {
-                    var html = "";
-                    $.each(data, function (index, hospital) {
-                        html += "<tr>";
-                        html += "<td>" + hospital.idhospital + "</td>";
-                        html += "<td>" + hospital.nombre + "</td>";
-                        html += "<td>" + hospital.direccion + "</td>";
-                        html += "<td>" + hospital.telefono + "</td>";
-                        html += "<td>" + hospital.camas + "</td>";
-                        html += "/<tr>";
-                    })
-                    $("#tablahospitales tbody").html(html);
-                }
+            $("#botoninsert").click(function () {
+                var id = parseInt($("#cajaidhospital").val());
+                var nombre = $("#cajanombre").val();
+                var direccion = $("#cajadireccion").val();
+                var tlf = $("#cajatelefono").val();
+                var camas = parseInt($("#cajacamas").val());
+                var hospital = new Object();
+
+                hospital.idhospital = id;
+                hospital.nombre = nombre;
+                hospital.direccion = direccion;
+                hospital.telefono = tlf;
+                hospital.camas = camas;
+
+                var hospitalJSON = JSON.stringify(hospital);
+                var request = "/webresources/hospitales/post"
+                // hacemos la petición a nuestro ajax
+                $.ajax({
+                    url: urlHospital + request,
+                    type: "POST",
+                    contentType: "application/json",
+                    data: hospitalJSON,
+                    success: function (data) {
+                        console.log("hopital insertado!")
+                    }
+                })
             })
+
         })
     </script>
 
