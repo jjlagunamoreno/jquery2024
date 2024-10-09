@@ -103,7 +103,7 @@
                         <a class="nav-link" href="web26createhospital.html">Create Hospital</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                        <a class="nav-link" href="web26edithospital.html">Update Hospital</a>
                     </li>
                 </ul>
             </div>
@@ -113,7 +113,24 @@
     <main class="container">
         <div class="bg-body-tertiary p-5 rounded">
             <h1>Edit Hospital</h1>
+            <!-- cajas para mostrar datos del hospital -->
 
+            <label>ID Hospital</label>
+            <input type="text" id="cajaidhospital" class="form-control" />
+
+            <label>Nombre</label>
+            <input type="text" id="cajanombre" class="form-control" />
+
+            <label>Dirección</label>
+            <input type="text" id="cajadireccion" class="form-control" />
+
+            <label>Teléfono</label>
+            <input type="text" id="cajatelefono" class="form-control" />
+
+            <label>Camas</label>
+            <input type="text" id="cajacamas" class="form-control" /></br>
+
+            <button id="botonupdate" class="btn btn-info">Update Hospital</button>
         </div>
     </main>
     <!-- se cambia la ruta -->
@@ -126,6 +143,21 @@
             var params = new window.URLSearchParams(window.location.search);
             var idHospitalURL = params.get('idhospital');
             console.log(idHospitalURL);
+
+            var requestFind = "/webresources/hospitales/" + idHospitalURL;
+            // BUSCAMOS UN HOSPITAL Y LO DIBUJAMOS EN LAS CAJAS
+            $.ajax({
+                url: urlHospital + requestFind,
+                type: "GET",
+                contentType: "application/json",
+                success: function (data) {
+                    $("#cajaidhospital").val(data.idhospital);
+                    $("#cajanombre").val(data.nombre);
+                    $("#cajadireccion").val(data.direccion);
+                    $("#cajatelefono").val(data.telefono);
+                    $("#cajacamas").val(data.camas);
+                }
+            })
         })
     </script>
 
