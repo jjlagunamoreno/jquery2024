@@ -158,6 +158,36 @@
                     $("#cajacamas").val(data.camas);
                 }
             })
+            $("#botonupdate").click(function () {
+                var requestPut = "/webresources/hospitales/put";
+                var idhospital = parseInt($("#cajaidhospital").val());
+                var nombre = $("#cajanombre").val();
+                var direccion = $("#cajadireccion").val();
+                var tlf = $("#cajatelefono").val();
+                var camas = parseInt($("#cajacamas").val());
+                var hospital = new Object();
+
+                hospital.idhospital = idhospital;
+                hospital.nombre = nombre;
+                hospital.direccion = direccion;
+                hospital.telefono = tlf;
+                hospital.camas = camas;
+
+                var dataJSON = JSON.stringify(hospital);
+
+                // hacemos la petición a nuestro ajax
+                $.ajax({
+                    url: urlHospital + requestPut,
+                    type: "PUT",
+                    contentType: "application/json",
+                    data: dataJSON,
+                    success: function (data) {
+                        console.log("hospital modificado");
+                        // cuando insertamos, nos vamos a index
+                        window.location.href = "web26indexhospitales.html"
+                    }
+                })
+            })
         })
     </script>
 
