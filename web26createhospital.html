@@ -159,7 +159,9 @@
                     contentType: "application/json",
                     data: hospitalJSON,
                     success: function (data) {
-                        console.log("hopital insertado!")
+                        console.log("hospital insertado!");
+                        // cuando insertamos, nos vamos a index
+                        window.location.href = "web26indexhospitales.html"
                     }
                 })
             })

@@ -112,21 +112,8 @@
 
     <main class="container">
         <div class="bg-body-tertiary p-5 rounded">
-            <h1>CRUD Hospitales</h1>
-            <table id="tablahospitales" class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>ID Hospital</th>
-                        <th>Nombre</th>
-                        <th>Dirección</th>
-                        <th>Teléfono</th>
-                        <th>Camas</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <h1>Edit Hospital</h1>
 
-                </tbody>
-            </table>
         </div>
     </main>
     <!-- se cambia la ruta -->
@@ -136,28 +123,9 @@
     <script>
         let urlHospital = "https://apicrudhospital.azurewebsites.net"
         $(document).ready(function () {
-            var request = "/webresources/hospitales"
-            $.ajax({
-                url: urlHospital + request,
-                type: "GET",
-                contentType: "application/json",
-                success: function (data) {
-                    var html = "";
-                    $.each(data, function (index, hospital) {
-                        html += "<tr>";
-                        html += "<td>" + hospital.idhospital + "</td>";
-                        html += "<td>" + hospital.nombre + "</td>";
-                        html += "<td>" + hospital.direccion + "</td>";
-                        html += "<td>" + hospital.telefono + "</td>";
-                        html += "<td>" + hospital.camas + "</td>";
-                        html += "<td>";
-                        html += "<a href='web26edithospital.html?idhospital=" + hospital.idhospital + "'> Editar </a>";
-                        html += "</td>";
-                        html += "/<tr>";
-                    })
-                    $("#tablahospitales tbody").html(html);
-                }
-            })
+            var params = new window.URLSearchParams(window.location.search);
+            var idHospitalURL = params.get('idhospital');
+            console.log(idHospitalURL);
         })
     </script>
 
