@@ -4,6 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Maestro detalle Empleados departamentos</h1>
+    <ul id="capadepartamentos"></ul>
+=======
     <title>Departamentos y Empleados doble api</title>
 </head>
 
@@ -14,6 +22,7 @@
     <ul id="listadepartamentos"></ul>
     <hr />
 
+>>>>>>> 82245493f40d121cf72bf6db30063de53c1e5c1f
     <table id="tablaempleados" border="1">
         <thead>
             <tr>
@@ -24,6 +33,54 @@
             </tr>
         </thead>
         <tbody></tbody>
+<<<<<<< HEAD
+    </table>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            var urlDepartamentos =
+                "https://apicruddepartamentoscore.azurewebsites.net/";
+            var urlEmpleados =
+                "https://apiempleadosspgs.azurewebsites.net/";
+            var requestDepartamentos = "api/departamentos";
+            $.getJSON(urlDepartamentos + requestDepartamentos, function (data) {
+                $.each(data, function (index, departamento) {
+                    var li = $("<li>", { "text": departamento.nombre });
+                    var link = $("<a>", {
+                        "text": " Empleados",
+                        "href": "#",
+                        "data-iddepartamento": departamento.numero
+                    });
+                    li.append(link);
+                    $("#capadepartamentos").append(li);
+                    link.click(function () {
+                        var idDepartamento = $(this).data("iddepartamento");
+                        console.log(idDepartamento);
+                        var requestEmpleados =
+                            "api/empleados/empleadosdepartamento/"
+                            + idDepartamento;
+                        $.ajax({
+                            url: urlEmpleados + requestEmpleados,
+                            type: "GET",
+                            success: function (data) {
+                                var html = "";
+                                $.each(data, function (index, empleado) {
+                                    html += "<tr>";
+                                    html += "<td>" + empleado.apellido + "</td>";
+                                    html += "<td>" + empleado.oficio + "</td>";
+                                    html += "<td>" + empleado.salario + "</td>";
+                                    html += "<td>" + empleado.departamento + "</td>";
+                                    html += "</tr>";
+                                })
+                                $("#tablaempleados tbody").html(html);
+                            }
+                        })
+                    })
+                })
+            })
+        })
+    </script>
+=======
 
     </table>
 
@@ -77,6 +134,7 @@
         }
     </script>
 
+>>>>>>> 82245493f40d121cf72bf6db30063de53c1e5c1f
 </body>
 
 </html>
