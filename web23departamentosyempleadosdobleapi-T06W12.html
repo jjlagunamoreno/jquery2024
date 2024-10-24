@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departamentos y Empleados doble api</title>
+</head>
+
+<body>
+    <h1>Departamentos y Empleados doble api</h1>
+
+    <hr />
+    <ul id="listadepartamentos"></ul>
+    <hr />
+
+    <table id="tablaempleados" border="1">
+        <thead>
+            <tr>
+                <th>Apellido</th>
+                <th>Oficio</th>
+                <th>Salario</th>
+                <th>Departamento</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+
+    </table>
+
+    <script src="js/jquery-3.7.1.js"></script>
+
+    <script>
+        // Declaramos las urls de las api con las que vamos a trabajar
+        let urlDepartamentos = "https://apicruddepartamentoscore.azurewebsites.net/";
+        let urlEmpleados = "https://apiempleadosspgs.azurewebsites.net/";
+
+        $(document).ready(function () {
+            loadDepartamentos();
+
+            // Usamos el método "on" para asignar el evento click a los elementos <a> que se crearán dinámicamente
+            $("#listadepartamentos").on("click", "a", function () {
+                let departamentoId = $(this).attr("id");
+                console.log("ID del departamento: " + departamentoId);
+
+                // EN ESTE EJERCICIO EXTRAEMOS LOS EMPLEADOS DE LOS DEPARTAMENTOS
+                // GRACIAS A LA REQUEST DE LA API, POR LO QUE NO NECESITAMOS
+                // NINGÚN 'IF', PARA PODER ENCONTRAR LOS EMPLEADOS DE LOS DEPARTAMENTOS
+                var requestEmpleados = "api/Empleados/EmpleadosDepartamento/" + departamentoId;
+                $.getJSON(urlEmpleados + requestEmpleados, function (data) {
+                    console.log("Leyendo empleados ...");
+                    var html = "";
+
+                    $.each(data, function (index, empleado) {
+                        html += "<tr>";
+                        html += "<td>" + empleado.apellido + "</td>";
+                        html += "<td>" + empleado.oficio + "</td>";
+                        html += "<td>" + empleado.salario + "</td>"
+                        html += "<td>" + empleado.departamento + "</td>"
+                        html += "</tr>";
+                    });
+                    $("#tablaempleados tbody").html(html);
+                });
+            });
+        });
+
+        function loadDepartamentos() {
+            var requestDepartamentos = "api/departamentos";
+            $.getJSON(urlDepartamentos + requestDepartamentos, function (data) {
+                console.log("Leyendo departamentos ...");
+                var html = "";
+                $.each(data, function (index, departamento) {
+                    html += "<li>" + departamento.nombre +
+                        " <a href='#' style='color:blue;' id='" + departamento.numero + "'>Empleados</a></li>";
+                });
+                $("#listadepartamentos").html(html);
+            });
+        }
+    </script>
+
+</body>
+
+</html>
